@@ -12,6 +12,7 @@ cs=pd.read_csv('company_score.csv',index_col='Id')
 st.header("FleetRisk Prediction Website")
 st.write("An Efficient Platform to evaluate Driver,Route and Vehicle Performance to ensure fleet safety!")
 dict={'DSP1':x['DSP1'][0],'DSP2':x['DSP2'][0],'DSP3':x['DSP3'][0],'n1':x['n1'][0],'n2':x['n2'][0],'n3':x['n3'][0]}
+dict2={'DSP1':x['DSP1'][0],'DSP2':x['DSP2'][0],'DSP3':x['DSP3'][0]}
 # %%
 
 st.markdown(
@@ -44,7 +45,7 @@ st.markdown(
 with st.sidebar:
     
     st.title("Welcome to fleetrisk prediction website!")
-source = ("Select from below ","Driver Risk Score", "Route Risk Score","Vehicle Risk Score","DSP score","DSP comparision","Company Score")
+source = ("Select from below ","Driver Risk Score", "Route Risk Score","Vehicle Risk Score","DSP score","Individual DSP Analysis","DSP comparision","Company Score and Analysis")
 source_index = st.sidebar.selectbox("Select:", range(
         len(source)), format_func=lambda x: source[x])
 
@@ -54,38 +55,57 @@ if source_index == 0:
         st.video("https://media.istockphoto.com/id/1334409221/video/gameplay-of-a-racing-simulator-video-game-with-interface-computer-generated-3d-car-driving.mp4?s=mp4-640x640-is&k=20&c=KNi0JAmT-lP2J1xzNEZUfad6k0BfiHBHh26C_xd_LSQ=",start_time=0)
 
 if source_index == 1:
-    DRIVER_ID = st.number_input("Enter Driver Id")
-    DSP_NO = st.number_input("Enter DSP number")
-    DRIVER_NAME=st.text_input("Enter Driver Name")
-    AGE = st.number_input("Enter Age")
-    LICENSE_DETAILS=st.text_input("Enter License Details")
-    TOTAL_MILES_DONE= st.number_input("Enter Total miles done")
-    MILES_IN_URBAN= st.number_input("Enter miles done in urban")
-    MILES_IN_NIGHT= st.number_input("Enter MILES_IN_NIGHT")
-    MILES_DONE_IN_RURAL= st.number_input("Enter MILES DONE IN RURAL")
-    ACCELERATION= st.number_input("Enter ACCELERATION")
-    BRAKING= st.number_input("Enter BRAKING")
-    CORNERING= st.number_input("Enter CORNERING")
-    SPEEDING= st.number_input("Enter SPEEDING")
-    SEATBELT= st.number_input("Enter SEATBELT")
-    DISTRACTION= st.number_input("Enter DISTRACTION")
-    NUMBER_OF_TICKETS_RECEIVED= st.number_input("Enter NUMBER_OF_TICKETS_RECEIVED")
+    st.header("Driver Risk Score")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        DRIVER_ID = st.number_input("Enter Driver Id",value=0)
+        DSP_NO = st.number_input("Enter DSP number",value=0)
+        DRIVER_NAME=st.text_input("Enter Driver Name")
+        AGE = st.number_input("Enter Age",value=0)
+        LICENSE_DETAILS=st.text_input("Enter License Details")
+        NUMBER_OF_TRIPS=st.number_input("Enter NUMBER_OF_TRIPS",value=0)
+    with col2:  
+        REWARD_POINTS=st.number_input("Enter REWARD_POINTS",value=0)
+        TOTAL_MILES_DONE= st.number_input("Enter Total miles done",value=0)
+        MILES_IN_URBAN= st.number_input("Enter miles done in urban",value=0)
+        MILES_IN_NIGHT= st.number_input("Enter MILES_IN_NIGHT",value=0)
+        MILES_DONE_IN_RURAL= st.number_input("Enter MILES DONE IN RURAL",value=0)
+        ACCELERATION= st.number_input("Enter ACCELERATION",value=0)
+    with col3:
+        BRAKING= st.number_input("Enter BRAKING",value=0)
+        CORNERING= st.number_input("Enter CORNERING",value=0)
+        SPEEDING= st.number_input("Enter SPEEDING",value=0)
+        SEATBELT= st.number_input("Enter SEATBELT",value=0)
+        DISTRACTION= st.number_input("Enter DISTRACTION",value=0)
+        NUMBER_OF_TICKETS_RECEIVED= st.number_input("Enter NO_OF_TICKETS_RECEIVED",value=0)
+
 
     if st.button("Submit"):
     
     # Unpickle classifier
-        model_gs = joblib.load("model_gs.pkl")
+        model_gs = joblib.load("model_gs2.pkl")
     
     # Store inputs into dataframe
-        X = pd.DataFrame([[AGE,TOTAL_MILES_DONE,MILES_IN_URBAN,MILES_IN_NIGHT,MILES_DONE_IN_RURAL,ACCELERATION,BRAKING,CORNERING,SPEEDING,SEATBELT,DISTRACTION,NUMBER_OF_TICKETS_RECEIVED]], 
-                     columns = ["AGE", "TOTAL_MILES_DONE", "MILES_IN_URBAN", "MILES_IN_NIGHT", "MILES DONE IN RURAL", "ACCELERATION", "BRAKING", "CORNERING", "SPEEDING", "SEATBELT", "DISTRACTION", "NUMBER_OF_TICKETS_RECEIVED"])
+        X = pd.DataFrame([[AGE,NUMBER_OF_TRIPS,REWARD_POINTS,TOTAL_MILES_DONE,MILES_IN_URBAN,MILES_IN_NIGHT,MILES_DONE_IN_RURAL,ACCELERATION,BRAKING,CORNERING,SPEEDING,SEATBELT,DISTRACTION,NUMBER_OF_TICKETS_RECEIVED]], 
+                     columns = ["AGE","NUMBER_OF_TRIPS","REWARD_POINTS", "TOTAL_MILES_DONE", "MILES_IN_URBAN", "MILES_IN_NIGHT", "MILES DONE IN RURAL", "ACCELERATION", "BRAKING", "CORNERING", "SPEEDING", "SEATBELT", "DISTRACTION", "NUMBER_OF_TICKETS_RECEIVED"])
     # X = X.replace(["Brown", "Blue"], [1, 0])
-    
+    # ,DRIVER_ID,AGE,NUMBER_OF_TRIPS,SAFETY_SCORE,REWARD_POINTS,TOTAL_MILES_DONE,MILES_IN_URBAN,MILES_IN_NIGHT,MILES DONE IN RURAL,ACCELERATION,BRAKING,CORNERING,SPEEDING,SEATBELT,DISTRACTION,NUMBER_OF_TICKETS_RECEIVED
+
     # Get prediction
         prediction = model_gs.predict(X)[0]
         prediction=int(prediction)
         if DSP_NO == 1:
-            
+            dsp1=pd.read_csv("dsp1.csv")
+            df2 = {'DRIVER_ID': DRIVER_ID, 'AGE': AGE, 'NUMBER_OF_TRIPS': NUMBER_OF_TRIPS,'SAFETY_SCORE': prediction,'REWARD_POINTS': REWARD_POINTS,'TOTAL_MILES_DONE': TOTAL_MILES_DONE,'MILES_IN_URBAN': MILES_IN_URBAN,'MILES_IN_NIGHT': MILES_IN_NIGHT,'MILES DONE IN RURAL': MILES_DONE_IN_RURAL,'ACCELERATION': ACCELERATION,'BRAKING': BRAKING,'CORNERING': CORNERING,'SPEEDING': SPEEDING,'SEATBELT': SEATBELT,'DISTRACTION': DISTRACTION,'NUMBER_OF_TICKETS_RECEIVED': NUMBER_OF_TICKETS_RECEIVED,}
+            dsp1 = dsp1.append(df2, ignore_index = True)
+            dsp1=dsp1.drop(dsp1.columns[[0]],axis=1)
+            dsp1.to_csv("dsp1.csv")
+            # new = pd.DataFrame(df2, index=[0])
+            # # new = pd.DataFrame.from_dict(df2,index='DRIVER_ID')
+            # new.set_index("DRIVER_ID")
+            # dsp11= pd.concat([dsp1, new])
+            # dsp11.reset_index()
+            # dsp11
             n1=dict['n1']
             x=dict['DSP1']
             dict['DSP1']=((n1*x)+prediction)/(n1+1)
@@ -93,6 +113,11 @@ if source_index == 1:
             h.iloc[0,1]=dict['DSP1']
             dict['n1']=n1+1
         if DSP_NO == 2:
+            dsp2=pd.read_csv("dsp2.csv")
+            df2 = {'DRIVER_ID': DRIVER_ID, 'AGE': AGE, 'NUMBER_OF_TRIPS': NUMBER_OF_TRIPS,'SAFETY_SCORE': prediction,'REWARD_POINTS': REWARD_POINTS,'TOTAL_MILES_DONE': TOTAL_MILES_DONE,'MILES_IN_URBAN': MILES_IN_URBAN,'MILES_IN_NIGHT': MILES_IN_NIGHT,'MILES DONE IN RURAL': MILES_DONE_IN_RURAL,'ACCELERATION': ACCELERATION,'BRAKING': BRAKING,'CORNERING': CORNERING,'SPEEDING': SPEEDING,'SEATBELT': SEATBELT,'DISTRACTION': DISTRACTION,'NUMBER_OF_TICKETS_RECEIVED': NUMBER_OF_TICKETS_RECEIVED,}
+            dsp2 = dsp2.append(df2, ignore_index = True)
+            dsp2=dsp2.drop(dsp2.columns[[0]],axis=1)
+            dsp2.to_csv("dsp2.csv")
             n2=dict['n2']
             x=dict['DSP2']
             dict['DSP2']=((n2*x)+prediction)/(n2+1)
@@ -100,6 +125,11 @@ if source_index == 1:
             h.iloc[1,1]=dict['DSP2']
             dict['n2']=n2+1
         if DSP_NO == 3:
+            dsp3=pd.read_csv("dsp1.csv")
+            df2 = {'DRIVER_ID': DRIVER_ID, 'AGE': AGE, 'NUMBER_OF_TRIPS': NUMBER_OF_TRIPS,'SAFETY_SCORE': prediction,'REWARD_POINTS': REWARD_POINTS,'TOTAL_MILES_DONE': TOTAL_MILES_DONE,'MILES_IN_URBAN': MILES_IN_URBAN,'MILES_IN_NIGHT': MILES_IN_NIGHT,'MILES DONE IN RURAL': MILES_DONE_IN_RURAL,'ACCELERATION': ACCELERATION,'BRAKING': BRAKING,'CORNERING': CORNERING,'SPEEDING': SPEEDING,'SEATBELT': SEATBELT,'DISTRACTION': DISTRACTION,'NUMBER_OF_TICKETS_RECEIVED': NUMBER_OF_TICKETS_RECEIVED,}
+            dsp3 = dsp3.append(df2, ignore_index = True)
+            dsp3=dsp3.drop(dsp3.columns[[0]],axis=1)
+            dsp3.to_csv("dsp3.csv")
             n3=dict['n3']
             x=dict['DSP3']
             dict['DSP3']=((n3*x)+prediction)/(n3+1)
@@ -142,13 +172,17 @@ if source_index == 1:
 # %%
 # DESTINATIONS	RAIN	TEMP	PRESSURE	WIND_SPEED	WIND_DIRECTION
 if source_index==2:
-    ROUTE_ID=st.number_input("Enter ROUTE_ID")
-    DESTINATIONS = st.number_input("Enter DESTINATIONS")
-    RAIN = st.number_input("Enter RAIN")
-    TEMP = st.number_input("Enter TEMP")
-    PRESSURE = st.number_input("Enter PRESSURE")
-    WIND_SPEED = st.number_input("Enter WIND_SPEED")
-    WIND_DIRECTION = st.number_input("Enter WIND_DIRECTION")
+    st.header("Route Risk Score")
+    Col1, Col2 = st.columns(2)
+    with Col1:
+        ROUTE_ID=st.number_input("Enter ROUTE_ID",value=0)
+        DESTINATIONS = st.number_input("Enter DESTINATIONS",value=0)
+        RAIN = st.number_input("Enter RAIN",value=0)
+        TEMP = st.number_input("Enter TEMP",value=0)
+    with Col2:
+        PRESSURE = st.number_input("Enter PRESSURE",value=0)
+        WIND_SPEED = st.number_input("Enter WIND_SPEED",value=0)
+        WIND_DIRECTION = st.number_input("Enter WIND_DIRECTION",value=0)
     
 
     if st.button("Submit"):
@@ -168,16 +202,21 @@ if source_index==2:
         st.success(f'Risk score : {pred}%')
 # %%
 if source_index==3:
-    YEAR = st.number_input("Enter YEAR")
-    TOTAL_MILES_DONE = st.number_input("Enter TOTAL_MILES_DONE")
-    BATTERY_VOLTAGE = st.number_input("Enter BATTERY_VOLTAGE")
-    TYRE_PRESSURE = st.number_input("Enter TYRE_PRESSURE")
-    FUEL_LEVEL = st.number_input("Enter FUEL_LEVEL")
-    OIL_LEVEL = st.number_input("Enter OIL_LEVEL")
-    DASH_CAM_IP = st.number_input("Enter DASH_CAM_IP")
-    LAST_SERVICE_DATE = st.number_input("Enter LAST_SERVICE_DATE")
-    NEXT_SERVICE_DATE = st.number_input("Enter NEXT_SERVICE_DATE")
-    NEXT_SERVICE_MILES = st.number_input("Enter NEXT_SERVICE_MILES")
+    st.header("Vehicle Risk Score")
+    COL1, COL2, COL3 = st.columns(3)
+    with COL1:
+        YEAR = st.number_input("Enter YEAR",value=0)
+        TOTAL_MILES_DONE = st.number_input("Enter TOTAL_MILES_DONE",value=0)
+        BATTERY_VOLTAGE = st.number_input("Enter BATTERY_VOLTAGE",value=0)
+        TYRE_PRESSURE = st.number_input("Enter TYRE_PRESSURE",value=0)
+    with COL2:
+        FUEL_LEVEL = st.number_input("Enter FUEL_LEVEL",value=0)
+        OIL_LEVEL = st.number_input("Enter OIL_LEVEL",value=0)
+        DASH_CAM_IP = st.number_input("Enter DASH_CAM_IP",value=0)
+    with COL3:
+        LAST_SERVICE_DATE = st.number_input("Enter LAST_SERVICE_DATE",value=0)
+        NEXT_SERVICE_DATE = st.number_input("Enter NEXT_SERVICE_DATE",value=0)
+        NEXT_SERVICE_MILES = st.number_input("Enter NEXT_SERVICE_MILES",value=0)
     if st.button("Submit"):
     
     # Unpickle classifier
@@ -197,6 +236,7 @@ if source_index==3:
 # %%
 
 if source_index==4:
+    st.header("DSP Score")
     st.markdown(
          f"""
          <style>
@@ -208,9 +248,9 @@ if source_index==4:
             font-weight:bold;
             font-height: 1.23rem;
          }}
-         .st-dy {{
-            background-color: rgb(9 171 59 / 100%);
-        }}
+        #  .st-dy {{
+        #     background-color: rgb(9 171 59 / 100%);
+        # }}
         .css-znku1x e16nr0p33{{
             font-weight:bold;
             font-height: 1.23rem;
@@ -232,9 +272,9 @@ if source_index==4:
             font-height: 1.23rem;
          }}
          
-        .stAlert{{
-            background-color: rgb(71 214 115 / 80%);
-        }}
+        # .stAlert{{
+        #     background-color: rgb(71 214 115 / 80%);
+        # }}
         .
          </style>
          """,
@@ -252,9 +292,9 @@ if source_index==4:
             font-height: 1.23rem;
          }}
          
-        .stAlert{{
-            background-color: rgb(71 214 115 / 80%);
-        }}
+        # .stAlert{{
+        #     background-color: rgb(71 214 115 / 80%);
+        # }}
         .
          </style>
          """,
@@ -271,9 +311,9 @@ if source_index==4:
             font-height: 1.23rem;
          }}
          
-        .stAlert{{
-            background-color: rgb(71 214 115 / 80%);
-        }}
+        # .stAlert{{
+        #     background-color: rgb(71 214 115 / 80%);
+        # }}
         .
          </style>
          """,
@@ -281,19 +321,153 @@ if source_index==4:
      )
         x=np.round(dict['DSP3'],2)
         st.success(f"DSP3 score: {x}%")
-
-if source_index==5:
+    Keymax = max(zip(dict2.values(), dict2.keys()))[1]
+    st.write(f" {Keymax} is the safest DSP currently!")
     
+if source_index==5:
+    st.header("Individual DSP Analysis")
+    tab1, tab2, tab3 = st.tabs(["DSP1", "DSP2", "DSP3"])
+    with tab1:
+        st.header("DSP1")
+        p1=pd.read_csv("dsp1.csv")
+        c1=0
+        c2=0
+        c3=0
+        c4=0
+        c5=0
+        for i,j in enumerate(p1["SAFETY_SCORE"]):
+            if j>0 and j<20:
+                c1=c1+1
+            if j>=20 and j<40:
+                c2=c2+1
+            if j>=40 and j<60:
+                c3=c3+1
+            if j>=60 and j<80:
+                c4=c4+1
+            if j>=80 and j<100:
+                c5=c5+1
+        data = {
+        'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
+        'Count of drivers': [c1,c2,c3,c4,c5],}
+        df = pd.DataFrame(data)
+        df.set_index("Score",inplace=True)
+        st.bar_chart(df)
+    with tab2:
+        st.header("DSP2")
+        p1=pd.read_csv("dsp2.csv")
+        c1=0
+        c2=0
+        c3=0
+        c4=0
+        c5=0
+        for i,j in enumerate(p1["SAFETY_SCORE"]):
+            if j>0 and j<20:
+                c1=c1+1
+            if j>=20 and j<40:
+                c2=c2+1
+            if j>=40 and j<60:
+                c3=c3+1
+            if j>=60 and j<80:
+                c4=c4+1
+            if j>=80 and j<100:
+                c5=c5+1
+        data = {
+        'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
+        'Count of drivers': [c1,c2,c3,c4,c5],}
+        df = pd.DataFrame(data)
+        df.set_index("Score",inplace=True)
+        st.bar_chart(df)
+    with tab3:
+        st.header("DSP3")
+        p1=pd.read_csv("dsp3.csv")
+        c1=0
+        c2=0
+        c3=0
+        c4=0
+        c5=0
+        for i,j in enumerate(p1["SAFETY_SCORE"]):
+            if j>0 and j<20:
+                c1=c1+1
+            if j>=20 and j<40:
+                c2=c2+1
+            if j>=40 and j<60:
+                c3=c3+1
+            if j>=60 and j<80:
+                c4=c4+1
+            if j>=80 and j<100:
+                c5=c5+1
+        data = {
+        'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
+        'Count of drivers': [c1,c2,c3,c4,c5],}
+  
+# Convert the dictionary into DataFrame
+        df = pd.DataFrame(data)
+        df.set_index("Score",inplace=True)
+        st.bar_chart(df)
+
+if source_index==6:
+    st.header("DSP Comparison")
     h.set_index("DSP",inplace=True)
     st.bar_chart(h)
-if source_index==6:
-    
-    dfc=pd.DataFrame()
-    dfc["TIME"]=cs["TIME"]
-    dfc["Score"]=cs["Score"]
-    dfc.set_index("TIME",inplace=True)
-    st.line_chart(dfc)
-    
+if source_index==7:
+    tab1, tab2 = st.tabs(["Company Score", "Overall Analysis"])
+    with tab1:
+        dfc=pd.DataFrame()
+        dfc["TIME"]=cs["TIME"]
+        dfc["Score"]=cs["Score"]
+        dfc.set_index("TIME",inplace=True)
+        st.line_chart(dfc)
+    with tab2:
+        st.header("Analysis")
+
+        p1=pd.read_csv("dsp1.csv")
+        p2=pd.read_csv("dsp2.csv")
+        p3=pd.read_csv("dsp3.csv")
+        
+        c1=0
+        c2=0
+        c3=0
+        c4=0
+        c5=0
+        for i,j in enumerate(p1["SAFETY_SCORE"]):
+            if j>0 and j<20:
+                c1=c1+1
+            if j>=20 and j<40:
+                c2=c2+1
+            if j>=40 and j<60:
+                c3=c3+1
+            if j>=60 and j<80:
+                c4=c4+1
+            if j>=80 and j<100:
+                c5=c5+1
+        for i,j in enumerate(p2["SAFETY_SCORE"]):
+            if j>0 and j<20:
+                c1=c1+1
+            if j>=20 and j<40:
+                c2=c2+1
+            if j>=40 and j<60:
+                c3=c3+1
+            if j>=60 and j<80:
+                c4=c4+1
+            if j>=80 and j<100:
+                c5=c5+1
+        for i,j in enumerate(p3["SAFETY_SCORE"]):
+            if j>0 and j<20:
+                c1=c1+1
+            if j>=20 and j<40:
+                c2=c2+1
+            if j>=40 and j<60:
+                c3=c3+1
+            if j>=60 and j<80:
+                c4=c4+1
+            if j>=80 and j<100:
+                c5=c5+1
+        data = {
+        'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
+        'Count of drivers': [c1,c2,c3,c4,c5],}
+        df = pd.DataFrame(data)
+        df.set_index("Score",inplace=True)
+        st.bar_chart(df)    
 
     
 
