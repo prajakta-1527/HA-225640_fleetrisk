@@ -23,3 +23,7 @@ streamlit run app.py
 ---
 ### **Presentation**
 [Link to ppt](https://www.canva.com/design/DAFUDUN0FL0/tq-gmzQ8cZHS2oH2w5isEQ/view?utm_content=DAFUDUN0FL0&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+---
+### **Documentation**
+[Link to document](https://docs.google.com/document/d/14US8TKSNKbgAmmlqGw7Z_SI7vsBMbNNFnVpEVv-dYKI/edit?usp=sharing)
