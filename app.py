@@ -54,46 +54,38 @@ if source_index == 0:
         st.video("https://media.istockphoto.com/id/1334409221/video/gameplay-of-a-racing-simulator-video-game-with-interface-computer-generated-3d-car-driving.mp4?s=mp4-640x640-is&k=20&c=KNi0JAmT-lP2J1xzNEZUfad6k0BfiHBHh26C_xd_LSQ=",start_time=0)
 
 if source_index == 1:
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        DRIVER_ID = st.number_input("Enter Driver Id")
-        DSP_NO = st.number_input("Enter DSP number")
-        DRIVER_NAME=st.text_input("Enter Driver Name")
-        AGE = st.number_input("Enter Age")
-        LICENSE_DETAILS=st.text_input("Enter License Details")
-        NUMBER_OF_TRIPS=st.number_input("Enter NUMBER_OF_TRIPS")
-    with col2:  
-        REWARD_POINTS=st.number_input("Enter REWARD_POINTS")
-        TOTAL_MILES_DONE= st.number_input("Enter Total miles done")
-        MILES_IN_URBAN= st.number_input("Enter miles done in urban")
-        MILES_IN_NIGHT= st.number_input("Enter MILES_IN_NIGHT")
-        MILES_DONE_IN_RURAL= st.number_input("Enter MILES DONE IN RURAL")
-        ACCELERATION= st.number_input("Enter ACCELERATION")
-    with col3:
-        BRAKING= st.number_input("Enter BRAKING")
-        CORNERING= st.number_input("Enter CORNERING")
-        SPEEDING= st.number_input("Enter SPEEDING")
-        SEATBELT= st.number_input("Enter SEATBELT")
-        DISTRACTION= st.number_input("Enter DISTRACTION")
-        NUMBER_OF_TICKETS_RECEIVED= st.number_input("Enter NO_OF_TICKETS_RECEIVED")
-
+    DRIVER_ID = st.number_input("Enter Driver Id")
+    DSP_NO = st.number_input("Enter DSP number")
+    DRIVER_NAME=st.text_input("Enter Driver Name")
+    AGE = st.number_input("Enter Age")
+    LICENSE_DETAILS=st.text_input("Enter License Details")
+    TOTAL_MILES_DONE= st.number_input("Enter Total miles done")
+    MILES_IN_URBAN= st.number_input("Enter miles done in urban")
+    MILES_IN_NIGHT= st.number_input("Enter MILES_IN_NIGHT")
+    MILES_DONE_IN_RURAL= st.number_input("Enter MILES DONE IN RURAL")
+    ACCELERATION= st.number_input("Enter ACCELERATION")
+    BRAKING= st.number_input("Enter BRAKING")
+    CORNERING= st.number_input("Enter CORNERING")
+    SPEEDING= st.number_input("Enter SPEEDING")
+    SEATBELT= st.number_input("Enter SEATBELT")
+    DISTRACTION= st.number_input("Enter DISTRACTION")
+    NUMBER_OF_TICKETS_RECEIVED= st.number_input("Enter NUMBER_OF_TICKETS_RECEIVED")
 
     if st.button("Submit"):
     
     # Unpickle classifier
-        model_gs = joblib.load("model_gs2.pkl")
+        model_gs = joblib.load("model_gs.pkl")
     
     # Store inputs into dataframe
-        X = pd.DataFrame([[AGE,NUMBER_OF_TRIPS,REWARD_POINTS,TOTAL_MILES_DONE,MILES_IN_URBAN,MILES_IN_NIGHT,MILES_DONE_IN_RURAL,ACCELERATION,BRAKING,CORNERING,SPEEDING,SEATBELT,DISTRACTION,NUMBER_OF_TICKETS_RECEIVED]], 
-                     columns = ["AGE","NUMBER_OF_TRIPS","REWARD_POINTS", "TOTAL_MILES_DONE", "MILES_IN_URBAN", "MILES_IN_NIGHT", "MILES DONE IN RURAL", "ACCELERATION", "BRAKING", "CORNERING", "SPEEDING", "SEATBELT", "DISTRACTION", "NUMBER_OF_TICKETS_RECEIVED"])
+        X = pd.DataFrame([[AGE,TOTAL_MILES_DONE,MILES_IN_URBAN,MILES_IN_NIGHT,MILES_DONE_IN_RURAL,ACCELERATION,BRAKING,CORNERING,SPEEDING,SEATBELT,DISTRACTION,NUMBER_OF_TICKETS_RECEIVED]], 
+                     columns = ["AGE", "TOTAL_MILES_DONE", "MILES_IN_URBAN", "MILES_IN_NIGHT", "MILES DONE IN RURAL", "ACCELERATION", "BRAKING", "CORNERING", "SPEEDING", "SEATBELT", "DISTRACTION", "NUMBER_OF_TICKETS_RECEIVED"])
     # X = X.replace(["Brown", "Blue"], [1, 0])
     
     # Get prediction
         prediction = model_gs.predict(X)[0]
         prediction=int(prediction)
         if DSP_NO == 1:
-            # dsp1=pd.read_csv("dsp1.csv")
-            # dsp1.loc[len(dsp1.index)]={DRIVER_ID,}
+            
             n1=dict['n1']
             x=dict['DSP1']
             dict['DSP1']=((n1*x)+prediction)/(n1+1)
@@ -150,16 +142,13 @@ if source_index == 1:
 # %%
 # DESTINATIONS	RAIN	TEMP	PRESSURE	WIND_SPEED	WIND_DIRECTION
 if source_index==2:
-    Col1, Col2 = st.columns(2)
-    with Col1:
-        ROUTE_ID=st.number_input("Enter ROUTE_ID")
-        DESTINATIONS = st.number_input("Enter DESTINATIONS")
-        RAIN = st.number_input("Enter RAIN")
-        TEMP = st.number_input("Enter TEMP")
-    with Col2:
-        PRESSURE = st.number_input("Enter PRESSURE")
-        WIND_SPEED = st.number_input("Enter WIND_SPEED")
-        WIND_DIRECTION = st.number_input("Enter WIND_DIRECTION")
+    ROUTE_ID=st.number_input("Enter ROUTE_ID")
+    DESTINATIONS = st.number_input("Enter DESTINATIONS")
+    RAIN = st.number_input("Enter RAIN")
+    TEMP = st.number_input("Enter TEMP")
+    PRESSURE = st.number_input("Enter PRESSURE")
+    WIND_SPEED = st.number_input("Enter WIND_SPEED")
+    WIND_DIRECTION = st.number_input("Enter WIND_DIRECTION")
     
 
     if st.button("Submit"):
@@ -179,20 +168,16 @@ if source_index==2:
         st.success(f'Risk score : {pred}%')
 # %%
 if source_index==3:
-    COL1, COL2, COL3 = st.columns(3)
-    with COL1:
-        YEAR = st.number_input("Enter YEAR")
-        TOTAL_MILES_DONE = st.number_input("Enter TOTAL_MILES_DONE")
-        BATTERY_VOLTAGE = st.number_input("Enter BATTERY_VOLTAGE")
-        TYRE_PRESSURE = st.number_input("Enter TYRE_PRESSURE")
-    with COL2:
-        FUEL_LEVEL = st.number_input("Enter FUEL_LEVEL")
-        OIL_LEVEL = st.number_input("Enter OIL_LEVEL")
-        DASH_CAM_IP = st.number_input("Enter DASH_CAM_IP")
-    with COL3:
-        LAST_SERVICE_DATE = st.number_input("Enter LAST_SERVICE_DATE")
-        NEXT_SERVICE_DATE = st.number_input("Enter NEXT_SERVICE_DATE")
-        NEXT_SERVICE_MILES = st.number_input("Enter NEXT_SERVICE_MILES")
+    YEAR = st.number_input("Enter YEAR")
+    TOTAL_MILES_DONE = st.number_input("Enter TOTAL_MILES_DONE")
+    BATTERY_VOLTAGE = st.number_input("Enter BATTERY_VOLTAGE")
+    TYRE_PRESSURE = st.number_input("Enter TYRE_PRESSURE")
+    FUEL_LEVEL = st.number_input("Enter FUEL_LEVEL")
+    OIL_LEVEL = st.number_input("Enter OIL_LEVEL")
+    DASH_CAM_IP = st.number_input("Enter DASH_CAM_IP")
+    LAST_SERVICE_DATE = st.number_input("Enter LAST_SERVICE_DATE")
+    NEXT_SERVICE_DATE = st.number_input("Enter NEXT_SERVICE_DATE")
+    NEXT_SERVICE_MILES = st.number_input("Enter NEXT_SERVICE_MILES")
     if st.button("Submit"):
     
     # Unpickle classifier
