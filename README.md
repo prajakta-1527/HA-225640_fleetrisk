@@ -9,7 +9,13 @@
 
 ---
 ### **Run**
-Clone the repo in virtual environment and open the website using the following command:
+
+Clone repo and install [requirements.txt](https://github.com/prajakta-1527/HA-225640_fleetrisk/blob/main/requirements.txt)
+
+
 ```bash
+git clone https://github.com/prajakta-1527/HA-225640_fleetrisk.git  # clone
+cd HA-225640_fleetrisk
+pip install -r requirements.txt  # install
 streamlit run app.py
 ```
