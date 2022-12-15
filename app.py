@@ -328,82 +328,162 @@ if source_index==5:
     st.header("Individual DSP Analysis")
     tab1, tab2, tab3 = st.tabs(["DSP1", "DSP2", "DSP3"])
     with tab1:
-        st.header("DSP1")
-        p1=pd.read_csv("dsp1.csv")
-        c1=0
-        c2=0
-        c3=0
-        c4=0
-        c5=0
-        for i,j in enumerate(p1["SAFETY_SCORE"]):
-            if j>0 and j<20:
-                c1=c1+1
-            if j>=20 and j<40:
-                c2=c2+1
-            if j>=40 and j<60:
-                c3=c3+1
-            if j>=60 and j<80:
-                c4=c4+1
-            if j>=80 and j<100:
-                c5=c5+1
-        data = {
-        'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
-        'Count of drivers': [c1,c2,c3,c4,c5],}
-        df = pd.DataFrame(data)
-        df.set_index("Score",inplace=True)
-        st.bar_chart(df)
+        h1,h2=st.columns(2)
+        with h1:
+            st.write("DSP1:distribution of drivers w.r.t safety score")
+            p1=pd.read_csv("dsp1.csv")
+            c1=0
+            c2=0
+            c3=0
+            c4=0
+            c5=0
+            for i,j in enumerate(p1["SAFETY_SCORE"]):
+                if j>0 and j<20:
+                    c1=c1+1
+                if j>=20 and j<40:
+                    c2=c2+1
+                if j>=40 and j<60:
+                    c3=c3+1
+                if j>=60 and j<80:
+                    c4=c4+1
+                if j>=80 and j<100:
+                    c5=c5+1
+            data = {
+            'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
+            'Count of drivers': [c1,c2,c3,c4,c5],}
+            df = pd.DataFrame(data)
+            df.set_index("Score",inplace=True)
+            st.bar_chart(df)
+        with h2:
+            st.write("DSP1:distribution of drivers w.r.t no of violations")
+            p1=pd.read_csv("dsp1.csv")
+            c1=0
+            c2=0
+            c3=0
+            c4=0
+            c5=0
+            for i,j in enumerate(p1["NUMBER_OF_TICKETS_RECEIVED"]):
+                if j>0 and j<10:
+                    c1=c1+1
+                if j>=10 and j<20:
+                    c2=c2+1
+                if j>=20 and j<30:
+                    c3=c3+1
+                if j>=30 and j<40:
+                    c4=c4+1
+                if j>=40 and j<50:
+                    c5=c5+1
+            data = {
+            'No of Violations': ['0-10', '10-20', '20-30', '30-40', '40-50'],
+            'Count of drivers': [c1,c2,c3,c4,c5],}
+            df = pd.DataFrame(data)
+            df.set_index("No of Violations",inplace=True)
+            st.bar_chart(df)
     with tab2:
-        st.header("DSP2")
-        p1=pd.read_csv("dsp2.csv")
-        c1=0
-        c2=0
-        c3=0
-        c4=0
-        c5=0
-        for i,j in enumerate(p1["SAFETY_SCORE"]):
-            if j>0 and j<20:
-                c1=c1+1
-            if j>=20 and j<40:
-                c2=c2+1
-            if j>=40 and j<60:
-                c3=c3+1
-            if j>=60 and j<80:
-                c4=c4+1
-            if j>=80 and j<100:
-                c5=c5+1
-        data = {
-        'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
-        'Count of drivers': [c1,c2,c3,c4,c5],}
-        df = pd.DataFrame(data)
-        df.set_index("Score",inplace=True)
-        st.bar_chart(df)
+        h1,h2=st.columns(2)
+        with h1:
+            st.write("DSP2:distribution of drivers w.r.t safety score")
+            p1=pd.read_csv("dsp2.csv")
+            c1=0
+            c2=0
+            c3=0
+            c4=0
+            c5=0
+            for i,j in enumerate(p1["SAFETY_SCORE"]):
+                if j>0 and j<20:
+                    c1=c1+1
+                if j>=20 and j<40:
+                    c2=c2+1
+                if j>=40 and j<60:
+                    c3=c3+1
+                if j>=60 and j<80:
+                    c4=c4+1
+                if j>=80 and j<100:
+                    c5=c5+1
+            data = {
+            'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
+            'Count of drivers': [c1,c2,c3,c4,c5],}
+            df = pd.DataFrame(data)
+            df.set_index("Score",inplace=True)
+            st.bar_chart(df)
+        with h2:
+            st.write("DSP2:distribution of drivers w.r.t no of violations")
+            p1=pd.read_csv("dsp2.csv")
+            c1=0
+            c2=0
+            c3=0
+            c4=0
+            c5=0
+            for i,j in enumerate(p1["NUMBER_OF_TICKETS_RECEIVED"]):
+                if j>0 and j<10:
+                    c1=c1+1
+                if j>=10 and j<20:
+                    c2=c2+1
+                if j>=20 and j<30:
+                    c3=c3+1
+                if j>=30 and j<40:
+                    c4=c4+1
+                if j>=40 and j<50:
+                    c5=c5+1
+            data = {
+            'No of Violations': ['0-10', '10-20', '20-30', '30-40', '40-50'],
+            'Count of drivers': [c1,c2,c3,c4,c5],}
+            df = pd.DataFrame(data)
+            df.set_index("No of Violations",inplace=True)
+            st.bar_chart(df)
+        
     with tab3:
-        st.header("DSP3")
-        p1=pd.read_csv("dsp3.csv")
-        c1=0
-        c2=0
-        c3=0
-        c4=0
-        c5=0
-        for i,j in enumerate(p1["SAFETY_SCORE"]):
-            if j>0 and j<20:
-                c1=c1+1
-            if j>=20 and j<40:
-                c2=c2+1
-            if j>=40 and j<60:
-                c3=c3+1
-            if j>=60 and j<80:
-                c4=c4+1
-            if j>=80 and j<100:
-                c5=c5+1
-        data = {
-        'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
-        'Count of drivers': [c1,c2,c3,c4,c5],}
-  
-# Convert the dictionary into DataFrame
-        df = pd.DataFrame(data)
-        df.set_index("Score",inplace=True)
-        st.bar_chart(df)
+        h1,h2=st.columns(2)
+        with h1:
+            st.write("DSP3:distribution of drivers w.r.t safety score")
+            p1=pd.read_csv("dsp3.csv")
+            c1=0
+            c2=0
+            c3=0
+            c4=0
+            c5=0
+            for i,j in enumerate(p1["SAFETY_SCORE"]):
+                if j>0 and j<20:
+                    c1=c1+1
+                if j>=20 and j<40:
+                    c2=c2+1
+                if j>=40 and j<60:
+                    c3=c3+1
+                if j>=60 and j<80:
+                    c4=c4+1
+                if j>=80 and j<100:
+                    c5=c5+1
+            data = {
+            'Score': ['0-20', '20-40', '40-60', '60-80', '80-100'],
+            'Count of drivers': [c1,c2,c3,c4,c5],}
+            df = pd.DataFrame(data)
+            df.set_index("Score",inplace=True)
+            st.bar_chart(df)
+        with h2:
+            st.write("DSP3:distribution of drivers w.r.t no of violations")
+            p1=pd.read_csv("dsp3.csv")
+            c1=0
+            c2=0
+            c3=0
+            c4=0
+            c5=0
+            for i,j in enumerate(p1["NUMBER_OF_TICKETS_RECEIVED"]):
+                if j>0 and j<10:
+                    c1=c1+1
+                if j>=10 and j<20:
+                    c2=c2+1
+                if j>=20 and j<30:
+                    c3=c3+1
+                if j>=30 and j<40:
+                    c4=c4+1
+                if j>=40 and j<50:
+                    c5=c5+1
+            data = {
+            'No of Violations': ['0-10', '10-20', '20-30', '30-40', '40-50'],
+            'Count of drivers': [c1,c2,c3,c4,c5],}
+            df = pd.DataFrame(data)
+            df.set_index("No of Violations",inplace=True)
+            st.bar_chart(df)
 
 if source_index==6:
     st.header("DSP Comparison")
