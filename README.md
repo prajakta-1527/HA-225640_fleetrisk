@@ -5,12 +5,13 @@
 
 
 ### **Demo**
-<video src='https://user-images.githubusercontent.com/107802412/207596044-29469262-2a97-4cba-9714-998e7fa0dcdd.mp4' width="400"></video>
+<video src='https://user-images.githubusercontent.com/107802412/208893487-010dc9a1-7a66-4a09-9c45-4615d64d7e95.mp4' width="400"></video>
 
 ---
 ### **Run**
 
 Clone repo and install [requirements.txt](https://github.com/prajakta-1527/HA-225640_fleetrisk/blob/main/requirements.txt)
+
 
 
 ```bash
