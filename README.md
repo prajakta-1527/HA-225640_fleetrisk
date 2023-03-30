@@ -8,6 +8,12 @@
 <video src='https://user-images.githubusercontent.com/107802412/208893487-010dc9a1-7a66-4a09-9c45-4615d64d7e95.mp4' width="400"></video>
 
 ---
+
+### **Link to Deployed Website**
+
+[Website](https://prajakta-1527-ha-225640-fleetrisk-app-vfg547.streamlit.app)
+
+---
 ### **Run**
 
 Clone repo and install [requirements.txt](https://github.com/prajakta-1527/HA-225640_fleetrisk/blob/main/requirements.txt)
